@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "WordIQ.slnx"
+    "dotnet.defaultSolution": "TriviaIQ.slnx"
 }
