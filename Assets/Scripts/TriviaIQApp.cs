@@ -111,21 +111,34 @@ public class TriviaIQApp : MonoBehaviour
             events.AddComponent<StandaloneInputModule>();
 #endif
         }
-        Panel(root, "Field", 0, 0, 1, 1, new Color(.025f, .14f, .13f));
-        for (int i = 1; i < 10; i++) Panel(root, "Yard line", i / 10f, 0, .001f, 1, new Color(1, 1, 1, .035f));
+        if (gameplay)
+        {
+            // Gameplay keeps the football-field treatment. The menu uses the
+            // responsive cover art instead, matching the other IQ games.
+            Panel(root, "Field", 0, 0, 1, 1, new Color(.025f, .14f, .13f));
+            for (int i = 1; i < 10; i++) Panel(root, "Yard line", i / 10f, 0, .001f, 1, new Color(1, 1, 1, .035f));
+        }
+        else
+        {
+            go.AddComponent<IQResponsiveMenuBackground>();
+        }
+
         if (FindFirstObjectByType<AudioListener>() == null) gameObject.AddComponent<AudioListener>();
         IQMusic.GetPlayer();
-        var sound = MakeButton(root, "SOUND", .79f, .025f, .17f, .045f, () => IQMusic.GetPlayer().ToggleSound());
-        // Keep the clickable area, but render only the speaker icon.
-        sound.GetComponent<Image>().color = Color.clear;
-        sound.transition = Selectable.Transition.None;
-        var icon = Rect(sound.transform, "Speaker", .36f, .15f, .28f, .7f);
-        var speaker = icon.gameObject.AddComponent<IQSpeakerGraphic>();
-        speaker.color = Color.white;
-        speaker.IsOn = IQMusic.GetPlayer().SoundEnabled;
-        speaker.raycastTarget = false;
-        sound.GetComponentInChildren<TMP_Text>().text = "";
-        sound.onClick.AddListener(() => { speaker.IsOn = IQMusic.GetPlayer().SoundEnabled; speaker.SetVerticesDirty(); });
+        if (gameplay)
+        {
+            var sound = MakeButton(root, "SOUND", .79f, .025f, .17f, .045f, () => IQMusic.GetPlayer().ToggleSound());
+            // Keep the clickable area, but render only the speaker icon.
+            sound.GetComponent<Image>().color = Color.clear;
+            sound.transition = Selectable.Transition.None;
+            var icon = Rect(sound.transform, "Speaker", .36f, .15f, .28f, .7f);
+            var speaker = icon.gameObject.AddComponent<IQSpeakerGraphic>();
+            speaker.color = Color.white;
+            speaker.IsOn = IQMusic.GetPlayer().SoundEnabled;
+            speaker.raycastTarget = false;
+            sound.GetComponentInChildren<TMP_Text>().text = "";
+            sound.onClick.AddListener(() => { speaker.IsOn = IQMusic.GetPlayer().SoundEnabled; speaker.SetVerticesDirty(); });
+        }
     }
     void Resize()
     {
@@ -136,15 +149,10 @@ public class TriviaIQApp : MonoBehaviour
     }
     void BuildMenu()
     {
-        Label(root, "TRIVIAIQ", .06f, .13f, .88f, .12f, 76, Color.white, TextAlignmentOptions.Center);
-        Label(root, pack.title, .06f, .27f, .88f, .08f, 42, Gold, TextAlignmentOptions.Center);
-        Label(root, pack.edition, .08f, .36f, .84f, .055f, 29, Color.white, TextAlignmentOptions.Center);
-        Label(root, "Know the player. Beat the clock.\nFour clues. One famous quarterback.", .1f, .45f, .8f, .10f, 28, Color.white, TextAlignmentOptions.Center);
+        // Keep the cover itself clean: only the three standard IQ Games actions.
         MakeButton(root, "PLAY", .2f, .61f, .6f, .075f, () => SceneManager.LoadScene("TspGameScene"));
         MakeButton(root, "HOW TO PLAY", .2f, .705f, .6f, .075f, ShowHelp);
-        Label(root, pack.difficulty + "  /  " + pack.puzzles.Length + " puzzles  /  " + pack.hintIntervalSeconds + "-second clues", .08f, .81f, .84f, .045f, 22, Gold, TextAlignmentOptions.Center);
-        if (packs.Count > 1) MakeButton(root, "CHANGE PACK", .28f, .865f, .44f, .04f, () => { selectedPack = packs[(packs.IndexOf(pack) + 1) % packs.Count].id; SceneManager.LoadScene("TspMenuScene"); });
-        MakeButton(root, "MORE IQ GAMES", .3f, .925f, .4f, .04f, () => Application.OpenURL("https://playiqgames.itch.io/"));
+        MakeButton(root, "OTHER IQ GAMES", .2f, .80f, .6f, .075f, () => Application.OpenURL("https://playiqgames.itch.io/"));
     }
     void ShowHelp()
     {

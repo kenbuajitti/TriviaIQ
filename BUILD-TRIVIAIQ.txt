@@ -1,0 +1,18 @@
+TriviaIQ — ROUTEIQ BUILD AND SOUND UPDATE
+
+This is an update for your existing project, not a complete Unity project.
+Close Unity. Run INSTALL.cmd in this folder and select the existing TriviaIQ
+project folder containing Assets, Packages and ProjectSettings.
+The installer backs up replaced files and changes only Web-related settings.
+Existing .meta files are preserved. Keep each game's update with its own project.
+
+Open the project with its installed Unity version and Web Build Support.
+Choose IQ Games > Build TriviaIQ for itch.io.
+Upload the resulting Builds/TriviaIQ-<timestamp>.zip to itch.io, not this update ZIP.
+Ordinary Web builds also validate the responsive template and package an upload ZIP.
+A profile that overrides the template is rejected with an explanatory error.
+
+CHECK: wide fullscreen stays landscape; portrait phone still adapts; resize works.
+CHECK: a fresh launch is silent; Play/How to Play do not enable music; only the speaker toggles music; no button box; waves follow actual game/browser playback. Sound resets off on reload and persists across scene changes. OS volume and tab muting cannot be detected. If playback stays suspended, toggle off then on to retry.
+
+Validation: source and JavaScript checks completed. Unity is unavailable in the editing environment; Unity compilation and live gameplay must be checked locally. No compiled WebGL build is included.

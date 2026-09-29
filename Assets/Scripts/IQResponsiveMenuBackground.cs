@@ -58,7 +58,7 @@ public sealed class IQResponsiveMenuBackground : MonoBehaviour
             RectTransform shade = CreateLayer("ReadabilityShade", backdrop);
             Stretch(shade);
             Image tint = shade.gameObject.AddComponent<Image>();
-            tint.color = new Color(.025f, .045f, .12f, .48f);
+            tint.color = new Color(.025f, .045f, .12f, .20f);
             tint.raycastTarget = false;
 
             Transform original = transform.Find("MenuBackground");

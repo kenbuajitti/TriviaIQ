@@ -1,0 +1,7 @@
+Assets\Editor\TriviaIQWebBuild.cs
+Assets\Editor\TriviaIQWebBuild.cs.meta
+Assets\Plugins\WebGL\IQAudio.jslib
+Assets\Plugins\WebGL\IQAudio.jslib.meta
+Assets\WebGLTemplates\IQGamesResponsive\index.html
+Assets\WebGLTemplates\IQGamesResponsive\index.html.meta
+BUILD-TRIVIAIQ.txt
