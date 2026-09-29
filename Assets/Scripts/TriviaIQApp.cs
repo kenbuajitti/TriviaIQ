@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+#if UNITY_WEBGL && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +29,9 @@ using UnityEngine.InputSystem.UI;
 // Packs are content, not code: add JSON TextAssets under Resources/TriviaPacks.
 public class TriviaIQApp : MonoBehaviour
 {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")] static extern void TriviaOpenGames();
+#endif
     readonly List<TriviaPack> packs = new List<TriviaPack>();
     readonly List<int> visible = new List<int>();
     readonly List<TMP_Text> hints = new List<TMP_Text>();
@@ -152,7 +158,15 @@ public class TriviaIQApp : MonoBehaviour
         // Keep the cover itself clean: only the three standard IQ Games actions.
         MakeButton(root, "PLAY", .2f, .61f, .6f, .075f, () => SceneManager.LoadScene("TspGameScene"));
         MakeButton(root, "HOW TO PLAY", .2f, .705f, .6f, .075f, ShowHelp);
-        MakeButton(root, "OTHER IQ GAMES", .2f, .80f, .6f, .075f, () => Application.OpenURL("https://playiqgames.itch.io/"));
+        MakeButton(root, "OTHER IQ GAMES", .2f, .80f, .6f, .075f, OpenAllGames);
+    }
+    void OpenAllGames()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        TriviaOpenGames();
+#else
+        Application.OpenURL("https://iqgamesonline.com/?iqreturn=1");
+#endif
     }
     void ShowHelp()
     {
